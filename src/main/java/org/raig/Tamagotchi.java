@@ -13,15 +13,12 @@ public class Tamagotchi implements Observer {
 
 
     private int happiness;
-    private final ClockTamagotchi clock;
 
-    public Tamagotchi(int happiness, ClockTamagotchi clock) {
+    public Tamagotchi(int happiness) {
         this.happiness = happiness;
-        this.clock = clock;
     }
-    public Tamagotchi(ClockTamagotchi clock) {
+    public Tamagotchi() {
         this.happiness = DEFAULT_INIT_HAPPINESS;
-        this.clock = clock;
     }
 
     public int getHappiness() {

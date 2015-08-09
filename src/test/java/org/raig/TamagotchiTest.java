@@ -21,7 +21,7 @@ public class TamagotchiTest {
     public void setup() {
         clockTamagotchi = new ClockTamagotchi(TEST_MILLISECONS_PERIOD);
         final int initialValueOfHappiness  = 5;
-        tamagotchi = new Tamagotchi(initialValueOfHappiness, clockTamagotchi);
+        tamagotchi = new Tamagotchi(initialValueOfHappiness);
         new Thread(clockTamagotchi).start();
     }
 
@@ -43,7 +43,7 @@ public class TamagotchiTest {
     public void happinessAtMaxLevelShouldNotAboveMaxLevelHappinessAfterFeed() {
 
         ClockTamagotchi clockTamagotchi = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
-        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(Tamagotchi.MAX_HAPPINESS, clockTamagotchi);
+        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(Tamagotchi.MAX_HAPPINESS);
         int initialHappiness = tamagotchiVeryHappy.getHappiness();
         tamagotchiVeryHappy.feed();
         Assert.assertEquals(initialHappiness, tamagotchiVeryHappy.getHappiness());
