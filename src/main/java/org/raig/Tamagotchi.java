@@ -3,21 +3,24 @@ package org.raig;
 import java.util.Observable;
 import java.util.Observer;
 
-import static java.lang.Thread.sleep;
+
 
 public class Tamagotchi implements Observer {
 
-    public static int  MAX_HAPPINESS = 50;
+    public static final   int  MAX_HAPPINESS = 50;
+    private static final  int DEFAULT_INIT_HAPPINESS = 0;
+
+
 
     private int happiness;
-    private ClockTamagotchi clock;
+    private final ClockTamagotchi clock;
 
-    public Tamagotchi( int happiness,ClockTamagotchi clock) {
+    public Tamagotchi(int happiness, ClockTamagotchi clock) {
         this.happiness = happiness;
         this.clock = clock;
     }
-    public Tamagotchi( ClockTamagotchi clock) {
-        this.happiness = 0;
+    public Tamagotchi(ClockTamagotchi clock) {
+        this.happiness = DEFAULT_INIT_HAPPINESS;
         this.clock = clock;
     }
 
@@ -30,19 +33,16 @@ public class Tamagotchi implements Observer {
     }
 
     private void increaseHappiness() {
-        if ( happiness < MAX_HAPPINESS) {
+        if (happiness < MAX_HAPPINESS) {
             happiness++;
         }
     }
 
     private void decreaseHappiness() {
-        if ( happiness > 0 ) {
+        if (happiness > 0) {
             happiness--;
         }
     }
-
-
-
 
     @Override
     public void update(Observable o, Object arg) {

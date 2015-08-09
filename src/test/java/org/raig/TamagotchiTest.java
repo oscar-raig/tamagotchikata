@@ -4,62 +4,61 @@ import org.junit.Before;
 import org.junit.Test;
 import org.apache.log4j.Logger;
 
-
-
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.*;
+import org.junit.Assert;
 
 
 public class TamagotchiTest {
-    static final Logger logger = Logger.getLogger("TamagotchiTest");
+
+    private static  Logger logger = Logger.getLogger("TamagotchiTest");
+
     private Tamagotchi tamagotchi;
     private ClockTamagotchi clockTamagotchi;
-	@Before
-	public void Setup() {
-        clockTamagotchi = new ClockTamagotchi();
-		tamagotchi = new Tamagotchi(5,clockTamagotchi);
-        new Thread( clockTamagotchi).start();
-	}
-	@Test
-	public void feedShouldIncreaseHappiness() {
-		int initialHappiness = tamagotchi.getHappiness();
-		tamagotchi.feed();
-		assertTrue(initialHappiness < tamagotchi.getHappiness());
-	}
+    private static final long TEST_MILLISECONS_PERIOD = 1000;
+    private static final long TEST_DELAY = TEST_MILLISECONS_PERIOD / 2;
 
-	@Test
-	public void feedShouldIncreas1Unit() {
+    @Before
+    public void setup() {
+        clockTamagotchi = new ClockTamagotchi(TEST_MILLISECONS_PERIOD);
+        final int initialValueOfHappiness  = 5;
+        tamagotchi = new Tamagotchi(initialValueOfHappiness, clockTamagotchi);
+        new Thread(clockTamagotchi).start();
+    }
 
-		int initialHappiness = tamagotchi.getHappiness();
+    @Test
+    public void feedShouldIncreaseHappiness() {
+        int initialHappiness = tamagotchi.getHappiness();
+        tamagotchi.feed();
+        Assert.assertTrue(initialHappiness < tamagotchi.getHappiness());
+    }
 
-		tamagotchi.feed();
+    @Test
+    public void feedShouldIncrease1Unit() {
+        int initialHappiness = tamagotchi.getHappiness();
+        tamagotchi.feed();
+        Assert.assertEquals(initialHappiness + 1, tamagotchi.getHappiness());
+    }
 
-		assertEquals(initialHappiness + 1, tamagotchi.getHappiness());
-	}
+    @Test
+    public void happinessAtMaxLevelShouldNotAboveMaxLevelHappinessAfterFeed() {
 
-	@Test
-	public void happinessAtMaxLevelShouldNotAboveMaxLeveHappinesAfterfeed() {
-
-		ClockTamagotchi clockTamagotchi = new ClockTamagotchi();
-		Tamagotchi tamagotchiVeryHappy = new Tamagotchi(Tamagotchi.MAX_HAPPINESS,clockTamagotchi);
-
-		int initialHappiness = tamagotchiVeryHappy.getHappiness();
-
-		tamagotchiVeryHappy.feed();
-
-		assertEquals(initialHappiness,tamagotchiVeryHappy.getHappiness() );
-	}
+        ClockTamagotchi clockTamagotchi = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
+        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(Tamagotchi.MAX_HAPPINESS, clockTamagotchi);
+        int initialHappiness = tamagotchiVeryHappy.getHappiness();
+        tamagotchiVeryHappy.feed();
+        Assert.assertEquals(initialHappiness, tamagotchiVeryHappy.getHappiness());
+    }
 
     @Test
     public void happinessShouldDecreaseAfter10Seconds() throws InterruptedException {
 
-        int initalHappiness = tamagotchi.getHappiness();
-        logger.debug("Testing happiness Value of Initial Happiness " + initalHappiness);
+        int initHappiness = tamagotchi.getHappiness();
+        logger.debug("Testing happiness Value of Initial Happiness " + initHappiness);
         clockTamagotchi.addObserver(tamagotchi);
         logger.debug("Sleeping a little bit");
-        sleep(10000);
+        sleep(TEST_MILLISECONS_PERIOD + TEST_DELAY);
         logger.debug("Testing happiness Value of actual Happiness " + tamagotchi.getHappiness());
-        assertTrue(initalHappiness > tamagotchi.getHappiness());
+        Assert.assertTrue(initHappiness > tamagotchi.getHappiness());
 
     }
 

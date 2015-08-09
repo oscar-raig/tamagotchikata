@@ -2,37 +2,40 @@ package org.raig;
 
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+
 
 import static java.lang.Thread.sleep;
 
-public class  IndianPaleAle {
-	final static Logger logger = Logger.getLogger(IndianPaleAle.class);
-	final static int INITIAL_HAPPINESS = 0;
+public final class  IndianPaleAle {
+    private static   Logger logger = Logger.getLogger(IndianPaleAle.class);
+    private static final long SLEEP_TIME = ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD * 10;
 
-	public static void main(String[] argv) {
-		logger.debug("Indian pale Ale is the best!");
+    private IndianPaleAle() {
+    }
 
-		ClockTamagotchi clock = new ClockTamagotchi();
+    public static void main(String[] argv) {
+        logger.debug("Indian pale Ale is the best!");
 
-		new Thread(clock).start();
-		Tamagotchi tamagotchi =  new Tamagotchi(INITIAL_HAPPINESS, clock);
+        ClockTamagotchi clock = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
 
-		logger.debug("Inital hapiness :" + tamagotchi.getHappiness());
+        new Thread(clock).start();
+        Tamagotchi tamagotchi =  new Tamagotchi(clock);
 
-		tamagotchi.feed();
-		logger.debug("Afterer feeding the tamagotchi hapiness has been Increased " + tamagotchi.getHappiness());
+        logger.debug("Init happiness :" + tamagotchi.getHappiness());
 
-		try {
-			sleep(10000);
-		} catch (InterruptedException e) {
-			logger.error("Error Sleeping!!");
-			return;
-		}
+        tamagotchi.feed();
+        logger.debug("After feeding the tamagotchi happiness has been Increased " + tamagotchi.getHappiness());
 
-		logger.debug("After Sleeping more 5 seconds hapiness has decreased : " + tamagotchi.getHappiness());
+        try {
+            sleep(SLEEP_TIME);
+        } catch (InterruptedException e) {
+            logger.error("Error Sleeping!!");
+            return;
+        }
 
-		clock.die();
-	}
+        logger.debug("After Sleeping more 5 seconds happiness has decreased : " + tamagotchi.getHappiness());
+
+        clock.die();
+    }
 
 }

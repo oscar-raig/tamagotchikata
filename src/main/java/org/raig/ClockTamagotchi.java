@@ -8,25 +8,38 @@ import static java.lang.Thread.sleep;
 
 public class ClockTamagotchi extends Observable implements Runnable {
 
-    final static Logger logger = Logger.getLogger(ClockTamagotchi.class);
+    public  static final  long DEFAULT_MILLISECONDS_PERIOD = 5000;
+    private long millisecondsPeriodAlert = DEFAULT_MILLISECONDS_PERIOD;
+    private static final  long BASE_FREQUENCY = 100;
+    private static final  long INITIAL_COUNTER_VALUE = 1;
+    private long maxCount = 0;
+
+    private  final  Logger logger = Logger.getLogger(ClockTamagotchi.class);
 
     private boolean stopClock = false;
-    private int Count = 0;
+    private long count = INITIAL_COUNTER_VALUE;
+
+
+    public ClockTamagotchi(long millisecondsPeriodAlert) {
+        this.millisecondsPeriodAlert = millisecondsPeriodAlert;
+        maxCount = millisecondsPeriodAlert / BASE_FREQUENCY;
+    }
+
     @Override
     public void run() {
-        while(true) {
-            if ( shouldResumeClock() ) {
+        while (true) {
+            if (shouldResumeClock()) {
                 return;
             }
-            logger.debug("Sleeping Clock");
-            SleepOneSecond();
-            Count++;
-            if (shouldPublish() ) {
+            sleepBaseFreqluency();
+            if (shouldPublish()) {
                 logger.debug("notify Observers");
                 setChanged();
-                resetPublishCondition();
                 notifyObservers();
+                resetPublishCondition();
+
             }
+            count++;
         }
     }
 
@@ -35,27 +48,26 @@ public class ClockTamagotchi extends Observable implements Runnable {
     }
 
 
-    private void SleepOneSecond() {
+    private void sleepBaseFreqluency() {
         try {
-            sleep(1000);
+            sleep(BASE_FREQUENCY);
         } catch (InterruptedException e) {
             logger.error("Error Sleeping");
-            return;
         }
     }
 
-    public boolean shouldResumeClock() {
-        if ( stopClock ) {
+    private boolean shouldResumeClock() {
+        if (stopClock) {
             System.out.println("Dying");
         }
         return stopClock;
     }
 
-    public boolean shouldPublish() {
-        return ( Count ==  5 );
+    private boolean shouldPublish() {
+        return (count >=  maxCount);
     }
 
-    public void resetPublishCondition() {
-        Count = 0;
+    private void resetPublishCondition() {
+        count = INITIAL_COUNTER_VALUE;
     }
 }
