@@ -4,7 +4,7 @@ apply plugin: "idea"
 apply plugin: 'checkstyle'
 
 //noinspection GroovyUnusedAssignment
-mainClassName="org.raig.IndianPaleAle"
+mainClassName="org.raig.Main"
 
 checkstyle {
     toolVersion ="6.4"

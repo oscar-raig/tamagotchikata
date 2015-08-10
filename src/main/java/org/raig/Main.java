@@ -6,16 +6,16 @@ import org.apache.log4j.Logger;
 
 import static java.lang.Thread.sleep;
 
-public final class  IndianPaleAle {
-    private static   Logger logger = Logger.getLogger(IndianPaleAle.class);
+public final class Main {
+    private static   Logger logger = Logger.getLogger(Main.class);
     private static final long SLEEP_TIME = ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD * 3;
     private static final int INITIAL_HAPPINESS = 6;
 
-    private IndianPaleAle() {
+    private Main() {
     }
 
     public static void main(String[] argv) {
-        logger.debug("Indian pale Ale is the best!");
+        logger.debug("Indian Pale Ale is the best beer you have tasted!");
 
 
         ClockTamagotchi clock = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
