@@ -25,7 +25,6 @@ public final class Main {
         new Thread(clock).start();
         logger.debug("Init happiness :" + tamagotchi.getHappiness());
 
-        
         tamagotchi.feed();
         logger.debug("After feeding the tamagotchi happiness has been Increased " + tamagotchi.getHappiness());
 
