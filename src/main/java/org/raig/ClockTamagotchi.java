@@ -9,46 +9,45 @@ import static java.lang.Thread.sleep;
 public class ClockTamagotchi extends Observable implements Runnable {
 
     public  static final  long DEFAULT_MILLISECONDS_PERIOD = 5000;
-    private long millisecondsPeriodAlert = DEFAULT_MILLISECONDS_PERIOD;
     private static final  long BASE_FREQUENCY = 100;
     private static final  long INITIAL_COUNTER_VALUE = 1;
-    private long maxCount = 0;
 
     private  final  Logger logger = Logger.getLogger(ClockTamagotchi.class);
 
-    private boolean stopClock = false;
+    private boolean clockRunning = true;
     private long count = INITIAL_COUNTER_VALUE;
+    private long maxCount = DEFAULT_MILLISECONDS_PERIOD / BASE_FREQUENCY;
 
 
     public ClockTamagotchi(long millisecondsPeriodAlert) {
-        this.millisecondsPeriodAlert = millisecondsPeriodAlert;
         maxCount = millisecondsPeriodAlert / BASE_FREQUENCY;
     }
 
     @Override
     public void run() {
-        while (true) {
-            if (shouldResumeClock()) {
-                return;
-            }
-            sleepBaseFreqluency();
+        while (clockIsRunning()) {
+            sleepBaseFrequency();
             if (shouldPublish()) {
-                logger.debug("notify Observers");
-                setChanged();
-                notifyObservers();
+                publish();
                 resetPublishCondition();
-
             }
-            count++;
+            incrementClock();
         }
     }
 
+    private void publish() {
+        logger.debug("Notify Observers");
+        setChanged();
+        notifyObservers();
+    }
+
     public void die() {
-        stopClock = true;
+        clockRunning = false;
+        logger.info("Clock is Stopped");
     }
 
 
-    private void sleepBaseFreqluency() {
+    private void sleepBaseFrequency() {
         try {
             sleep(BASE_FREQUENCY);
         } catch (InterruptedException e) {
@@ -56,11 +55,8 @@ public class ClockTamagotchi extends Observable implements Runnable {
         }
     }
 
-    private boolean shouldResumeClock() {
-        if (stopClock) {
-            System.out.println("Dying");
-        }
-        return stopClock;
+    private boolean clockIsRunning() {
+        return clockRunning;
     }
 
     private boolean shouldPublish() {
@@ -69,5 +65,9 @@ public class ClockTamagotchi extends Observable implements Runnable {
 
     private void resetPublishCondition() {
         count = INITIAL_COUNTER_VALUE;
+    }
+
+    private void incrementClock() {
+        count++;
     }
 }

@@ -17,7 +17,7 @@ public class ClockTamagotchiTest {
     @Test
     public void shouldCallUpdateMethodonce() throws Exception {
 
-        logger.debug("should_Call_Update_Method_once");
+        logger.debug("Clock should Call Update Method once");
 
         ClockTamagotchi clockTamagotchi = new ClockTamagotchi(TEST_MILLISECONS_PERIOD);
         Observer observer = Mockito.mock(Observer.class);
@@ -34,7 +34,7 @@ public class ClockTamagotchiTest {
     @Test
     public void shouldCallUpdateMethodtwice() throws Exception {
 
-        logger.debug("should_Call_Update_Method_twice");
+        logger.debug("Clock Should call update Method twice");
 
         ClockTamagotchi clockTamagotchi = new ClockTamagotchi(TEST_MILLISECONS_PERIOD);
         Observer observer = Mockito.mock(Observer.class);
