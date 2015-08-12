@@ -3,7 +3,6 @@ package org.raig;
 
 import org.apache.log4j.Logger;
 
-
 import static java.lang.Thread.sleep;
 
 public final class Main {
@@ -27,8 +26,12 @@ public final class Main {
         MacroCommand macroCommand = new MacroCommand();
         IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
         macroCommand.add(incrementCommand);
+        DateTamagochi dateTamagochi = new DateTamagochi();
+        TimePassesCommand timePassesCommand =
+          new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
 
-        Tamagotchi tamagotchi =  new Tamagotchi(feelingRepository,macroCommand,INITIAL_HAPPINESS);
+        Tamagotchi tamagotchi =  new Tamagotchi(feelingRepository,
+            macroCommand,timePassesCommand,INITIAL_HAPPINESS);
         clock.addObserver(tamagotchi);
 
         new Thread(clock).start();

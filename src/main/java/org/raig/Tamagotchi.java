@@ -19,10 +19,11 @@ public class Tamagotchi implements Observer {
      this.feelingRepository = feelingRepository;
    }
 
-    public Tamagotchi(FeelingRepository feelingRepository,Command feed,int happiness) {
+    public Tamagotchi(FeelingRepository feelingRepository,Command feed,Command timePasses,int happiness) {
       this.feed = feed;
       this.feelingRepository = feelingRepository;
       feelingRepository.updateFeeling("happiness",happiness);
+      this.timePasses = timePasses;
 
     }
     public Tamagotchi() {

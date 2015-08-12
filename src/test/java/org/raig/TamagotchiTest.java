@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
 
 public class TamagotchiTest {
 
-    private static  Logger logger = Logger.getLogger("TamagotchiTest");
+    private static  final Logger LOGGER = Logger.getLogger(TamagotchiTest.class);
 
     private Tamagotchi tamagotchi;
     private ClockTamagotchi clockTamagotchi;
@@ -29,7 +29,11 @@ public class TamagotchiTest {
         IncrementCommand incrementHappiness = new IncrementCommand(feelingRepository,"happiness");
         MacroCommand feed = new MacroCommand();
         feed.add(incrementHappiness);
-        tamagotchi = new Tamagotchi(feelingRepository, feed, initialValueOfHappiness);
+        DateTamagochi dateTamagochi = new DateTamagochi();
+        TimePassesCommand timePassesCommand =
+          new TimePassesCommand(feelingRepository,"happiness", dateTamagochi);
+        tamagotchi = new Tamagotchi(feelingRepository, feed,
+          timePassesCommand,initialValueOfHappiness);
         new Thread(clockTamagotchi).start();
     }
 
@@ -53,11 +57,16 @@ public class TamagotchiTest {
         ClockTamagotchi clockTamagotchi = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
         FeelingRepository feelingRepository = new FeelingRepository();
         Feeling happiness = new Feeling("happiness");
-
+        feelingRepository.insertFeeling(happiness);
         MacroCommand feed = new MacroCommand();
         IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
         feed.add(incrementCommand);
-        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(feelingRepository,feed,Tamagotchi.MAX_HAPPINESS);
+        DateTamagochi dateTamagochi = new DateTamagochi();
+        TimePassesCommand timePassesCommand =
+          new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
+        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(feelingRepository,feed,
+          timePassesCommand,Tamagotchi.MAX_HAPPINESS);
+        clockTamagotchi.addObserver(tamagotchiVeryHappy);
         int initialHappiness = tamagotchiVeryHappy.getHappiness();
         tamagotchiVeryHappy.feed();
         Assert.assertEquals(initialHappiness, tamagotchiVeryHappy.getHappiness());
@@ -69,13 +78,17 @@ public class TamagotchiTest {
         FeelingRepository feelingRepository = new FeelingRepository();
         Feeling feeling = new Feeling("happiness");
         feelingRepository.insertFeeling(feeling);
-        Tamagotchi tamagotchi = new Tamagotchi(feelingRepository);
+        DateTamagochi dateTamagochi = new DateTamagochi();
+        TimePassesCommand timePassesCommand =
+          new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
+        Tamagotchi tamagotchi = new Tamagotchi(feelingRepository,null,
+          timePassesCommand,Tamagotchi.MAX_HAPPINESS);
         int initHappiness = tamagotchi.getHappiness();
-        logger.debug("Testing happiness Value of Initial Happiness " + initHappiness);
+        LOGGER.debug("Testing happiness Value of Initial Happiness " + initHappiness);
         clockTamagotchi.addObserver(tamagotchi);
-        logger.debug("Sleeping a little bit");
+        LOGGER.debug("Sleeping a little bit");
         sleep(TEST_MILLISECONS_PERIOD + TEST_DELAY);
-        logger.debug("Testing happiness Value of actual Happiness " + tamagotchi.getHappiness());
+        LOGGER.debug("Testing happiness Value of actual Happiness " + tamagotchi.getHappiness());
         Assert.assertTrue(initHappiness > tamagotchi.getHappiness());
 
     }
