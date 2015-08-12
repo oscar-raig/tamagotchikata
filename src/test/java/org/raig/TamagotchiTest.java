@@ -1,11 +1,11 @@
 package org.raig;
 
+import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.log4j.Logger;
 
 import static java.lang.Thread.sleep;
-import org.junit.Assert;
 
 
 public class TamagotchiTest {
@@ -19,9 +19,17 @@ public class TamagotchiTest {
 
     @Before
     public void setup() {
+
         clockTamagotchi = new ClockTamagotchi(TEST_MILLISECONS_PERIOD);
         final int initialValueOfHappiness  = 5;
-        tamagotchi = new Tamagotchi(initialValueOfHappiness);
+        FeelingRepository feelingRepository = new FeelingRepository();
+        Feeling happiness = new Feeling("happiness");
+        feelingRepository.insertFeeling(happiness);
+
+        IncrementCommand incrementHappiness = new IncrementCommand(feelingRepository,"happiness");
+        MacroCommand feed = new MacroCommand();
+        feed.add(incrementHappiness);
+        tamagotchi = new Tamagotchi(feelingRepository, feed, initialValueOfHappiness);
         new Thread(clockTamagotchi).start();
     }
 
@@ -43,7 +51,13 @@ public class TamagotchiTest {
     public void happinessAtMaxLevelShouldNotAboveMaxLevelHappinessAfterFeed() {
 
         ClockTamagotchi clockTamagotchi = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
-        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(Tamagotchi.MAX_HAPPINESS);
+        FeelingRepository feelingRepository = new FeelingRepository();
+        Feeling happiness = new Feeling("happiness");
+
+        MacroCommand feed = new MacroCommand();
+        IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
+        feed.add(incrementCommand);
+        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(feelingRepository,feed,Tamagotchi.MAX_HAPPINESS);
         int initialHappiness = tamagotchiVeryHappy.getHappiness();
         tamagotchiVeryHappy.feed();
         Assert.assertEquals(initialHappiness, tamagotchiVeryHappy.getHappiness());
@@ -52,6 +66,10 @@ public class TamagotchiTest {
     @Test
     public void happinessShouldDecreaseAfter10Seconds() throws InterruptedException {
 
+        FeelingRepository feelingRepository = new FeelingRepository();
+        Feeling feeling = new Feeling("happiness");
+        feelingRepository.insertFeeling(feeling);
+        Tamagotchi tamagotchi = new Tamagotchi(feelingRepository);
         int initHappiness = tamagotchi.getHappiness();
         logger.debug("Testing happiness Value of Initial Happiness " + initHappiness);
         clockTamagotchi.addObserver(tamagotchi);

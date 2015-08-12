@@ -17,9 +17,18 @@ public final class Main {
     public static void main(String[] argv) {
         logger.debug("Indian Pale Ale is the best beer you have tasted!");
 
-        ClockTamagotchi clock = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
 
-        Tamagotchi tamagotchi =  new Tamagotchi(INITIAL_HAPPINESS);
+
+
+        ClockTamagotchi clock = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
+        FeelingRepository feelingRepository = new FeelingRepository();
+        Feeling happiness = new Feeling("happiness");
+        feelingRepository.insertFeeling(happiness);
+        MacroCommand macroCommand = new MacroCommand();
+        IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
+        macroCommand.add(incrementCommand);
+
+        Tamagotchi tamagotchi =  new Tamagotchi(feelingRepository,macroCommand,INITIAL_HAPPINESS);
         clock.addObserver(tamagotchi);
 
         new Thread(clock).start();
