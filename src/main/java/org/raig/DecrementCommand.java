@@ -1,5 +1,9 @@
 package org.raig;
 
+import org.raig.tamagotchi.domain.model.Command;
+import org.raig.tamagotchi.domain.model.Feeling.Feeling;
+import org.raig.tamagotchi.domain.model.Feeling.FeelingRepository;
+
 public class DecrementCommand implements Command {
 
   FeelingRepository feelingRepository;

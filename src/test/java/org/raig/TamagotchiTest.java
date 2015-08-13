@@ -4,6 +4,11 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.raig.tamagotchi.domain.model.Alarm;
+import org.raig.tamagotchi.domain.model.DateProvider;
+import org.raig.tamagotchi.domain.model.Feeling.Feeling;
+import org.raig.tamagotchi.domain.model.Feeling.FeelingRepository;
+import org.raig.tamagotchi.domain.model.Tamagotchi;
 
 import static java.lang.Thread.sleep;
 
@@ -13,14 +18,14 @@ public class TamagotchiTest {
     private static  final Logger LOGGER = Logger.getLogger(TamagotchiTest.class);
 
     private Tamagotchi tamagotchi;
-    private ClockTamagotchi clockTamagotchi;
+    private Alarm clockTamagotchi;
     private static final long TEST_MILLISECONS_PERIOD = 1000;
     private static final long TEST_DELAY = TEST_MILLISECONS_PERIOD / 2;
 
     @Before
     public void setup() {
 
-        clockTamagotchi = new ClockTamagotchi(TEST_MILLISECONS_PERIOD);
+        clockTamagotchi = new Alarm(TEST_MILLISECONS_PERIOD);
         final int initialValueOfHappiness  = 5;
         FeelingRepository feelingRepository = new FeelingRepository();
         Feeling happiness = new Feeling("happiness");
@@ -29,7 +34,7 @@ public class TamagotchiTest {
         IncrementCommand incrementHappiness = new IncrementCommand(feelingRepository,"happiness");
         MacroCommand feed = new MacroCommand();
         feed.add(incrementHappiness);
-        DateTamagochi dateTamagochi = new DateTamagochi();
+        DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
           new TimePassesCommand(feelingRepository,"happiness", dateTamagochi);
         tamagotchi = new Tamagotchi(feelingRepository, feed,
@@ -54,14 +59,14 @@ public class TamagotchiTest {
     @Test
     public void happinessAtMaxLevelShouldNotAboveMaxLevelHappinessAfterFeed() {
 
-        ClockTamagotchi clockTamagotchi = new ClockTamagotchi(ClockTamagotchi.DEFAULT_MILLISECONDS_PERIOD);
+        Alarm clockTamagotchi = new Alarm(Alarm.DEFAULT_MILLISECONDS_PERIOD);
         FeelingRepository feelingRepository = new FeelingRepository();
         Feeling happiness = new Feeling("happiness");
         feelingRepository.insertFeeling(happiness);
         MacroCommand feed = new MacroCommand();
         IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
         feed.add(incrementCommand);
-        DateTamagochi dateTamagochi = new DateTamagochi();
+        DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
           new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
         Tamagotchi tamagotchiVeryHappy = new Tamagotchi(feelingRepository,feed,
@@ -78,7 +83,7 @@ public class TamagotchiTest {
         FeelingRepository feelingRepository = new FeelingRepository();
         Feeling feeling = new Feeling("happiness");
         feelingRepository.insertFeeling(feeling);
-        DateTamagochi dateTamagochi = new DateTamagochi();
+        DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
           new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
         Tamagotchi tamagotchi = new Tamagotchi(feelingRepository,null,
