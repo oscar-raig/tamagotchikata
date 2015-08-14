@@ -2,9 +2,8 @@ package org.raig.tamagotchi.domain.model.Feeling;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.raig.tamagotchi.domain.model.Feeling.Feeling;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class FeelingTest {
   Feeling feeling;
@@ -15,7 +14,7 @@ public class FeelingTest {
   }
 
   @Test
-  public void getNameShouldReturnNameoTheFiling(){
+  public void getNameShouldReturnNameoTheFiling() {
     String nameOfFeeling = feeling.getName();
     assertEquals("happiness" , nameOfFeeling);
   }
@@ -25,7 +24,4 @@ public class FeelingTest {
     int feelingValue = feeling.getValue();
     assertEquals(0, feelingValue);
   }
-
-
-
 }

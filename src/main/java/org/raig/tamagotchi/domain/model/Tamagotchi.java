@@ -17,14 +17,14 @@ public class Tamagotchi implements Observer {
     private Command timePasses;
 
 
-   public Tamagotchi( FeelingRepository feelingRepository) {
+   public Tamagotchi(FeelingRepository feelingRepository) {
      this.feelingRepository = feelingRepository;
    }
 
-    public Tamagotchi(FeelingRepository feelingRepository,Command feed,Command timePasses,int happiness) {
+    public Tamagotchi(FeelingRepository feelingRepository, Command feed, Command timePasses, int happiness) {
       this.feed = feed;
       this.feelingRepository = feelingRepository;
-      feelingRepository.updateFeeling("happiness",happiness);
+      feelingRepository.updateFeeling("happiness", happiness);
       this.timePasses = timePasses;
 
     }

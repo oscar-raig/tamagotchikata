@@ -31,14 +31,14 @@ public class TamagotchiTest {
         Feeling happiness = new Feeling("happiness");
         feelingRepository.insertFeeling(happiness);
 
-        IncrementCommand incrementHappiness = new IncrementCommand(feelingRepository,"happiness");
+        IncrementCommand incrementHappiness = new IncrementCommand(feelingRepository, "happiness");
         MacroCommand feed = new MacroCommand();
         feed.add(incrementHappiness);
         DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
-          new TimePassesCommand(feelingRepository,"happiness", dateTamagochi);
+          new TimePassesCommand(feelingRepository, "happiness", dateTamagochi);
         tamagotchi = new Tamagotchi(feelingRepository, feed,
-          timePassesCommand,initialValueOfHappiness);
+          timePassesCommand, initialValueOfHappiness);
         new Thread(clockTamagotchi).start();
     }
 
@@ -64,13 +64,13 @@ public class TamagotchiTest {
         Feeling happiness = new Feeling("happiness");
         feelingRepository.insertFeeling(happiness);
         MacroCommand feed = new MacroCommand();
-        IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
+        IncrementCommand incrementCommand = new IncrementCommand(feelingRepository, "happiness");
         feed.add(incrementCommand);
         DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
-          new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
-        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(feelingRepository,feed,
-          timePassesCommand,Tamagotchi.MAX_HAPPINESS);
+          new TimePassesCommand(feelingRepository, "happiness", dateTamagochi);
+        Tamagotchi tamagotchiVeryHappy = new Tamagotchi(feelingRepository, feed,
+          timePassesCommand, Tamagotchi.MAX_HAPPINESS);
         clockTamagotchi.addObserver(tamagotchiVeryHappy);
         int initialHappiness = tamagotchiVeryHappy.getHappiness();
         tamagotchiVeryHappy.feed();
@@ -85,9 +85,9 @@ public class TamagotchiTest {
         feelingRepository.insertFeeling(feeling);
         DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
-          new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
-        Tamagotchi tamagotchi = new Tamagotchi(feelingRepository,null,
-          timePassesCommand,Tamagotchi.MAX_HAPPINESS);
+          new TimePassesCommand(feelingRepository, "happiness", dateTamagochi);
+        Tamagotchi tamagotchi = new Tamagotchi(feelingRepository, null,
+          timePassesCommand, Tamagotchi.MAX_HAPPINESS);
         int initHappiness = tamagotchi.getHappiness();
         LOGGER.debug("Testing happiness Value of Initial Happiness " + initHappiness);
         clockTamagotchi.addObserver(tamagotchi);

@@ -32,14 +32,14 @@ public final class Main {
         Feeling happiness = new Feeling("happiness");
         feelingRepository.insertFeeling(happiness);
         MacroCommand macroCommand = new MacroCommand();
-        IncrementCommand incrementCommand = new IncrementCommand(feelingRepository,"happiness");
+        IncrementCommand incrementCommand = new IncrementCommand(feelingRepository, "happiness");
         macroCommand.add(incrementCommand);
         DateProvider dateTamagochi = new DateProvider();
         TimePassesCommand timePassesCommand =
-          new TimePassesCommand(feelingRepository,"happiness",dateTamagochi);
+          new TimePassesCommand(feelingRepository, "happiness", dateTamagochi);
 
         Tamagotchi tamagotchi =  new Tamagotchi(feelingRepository,
-            macroCommand,timePassesCommand,INITIAL_HAPPINESS);
+            macroCommand, timePassesCommand, INITIAL_HAPPINESS);
         clock.addObserver(tamagotchi);
 
         new Thread(clock).start();
@@ -49,7 +49,8 @@ public final class Main {
         logger.debug("After feeding the tamagotchi happiness has been Increased " + tamagotchi.getHappiness());
 
         sleeping();
-        logger.debug("After Sleeping more " + SLEEP_TIME + " seconds happiness has decreased : " + tamagotchi.getHappiness());
+        logger.debug("After Sleeping more " + SLEEP_TIME
+          + " seconds happiness has decreased : " + tamagotchi.getHappiness());
 
         clock.die();
     }

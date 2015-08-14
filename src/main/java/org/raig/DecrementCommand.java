@@ -9,7 +9,7 @@ public class DecrementCommand implements Command {
   FeelingRepository feelingRepository;
   String feelingName;
 
-  public DecrementCommand(FeelingRepository feelingRepository,String feelingName) {
+  public DecrementCommand(FeelingRepository feelingRepository, String feelingName) {
     this.feelingRepository = feelingRepository;
     this.feelingName = feelingName;
   }
