@@ -17,10 +17,14 @@ public class Feeling {
     return name;
   }
 
+  public Feeling(String name, int initialValue) {
+    this.name = name;
+    this.value = initialValue;
+  }
+
   public Feeling(String name) {
     this.name = name;
     this.value = 0;
   }
-
 
 }

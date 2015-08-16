@@ -4,27 +4,26 @@ import org.junit.Test;
 import org.raig.tamagotchi.domain.model.Feeling.Feeling;
 import org.raig.tamagotchi.domain.model.Feeling.FeelingRepository;
 
+
 import static org.junit.Assert.assertEquals;
 
 public class DecrementCommandTest {
 
+  private  static final int INITIAL_HAPPINESS_FOR_TEST = 5;
 
   @Test
-  public void decrementCommandShouldAdd1() {
+  public void decrementCommandShouldDecrement1() {
 
     FeelingRepository feelingRepository = new FeelingRepository();
-    Feeling happiness = new Feeling("happiness");
+    Feeling happiness = new Feeling("happiness", INITIAL_HAPPINESS_FOR_TEST);
     feelingRepository.insertFeeling(happiness);
-    int initHappiness = happiness.getValue();
-    DecrementCommand incrementCommand = new DecrementCommand(feelingRepository, "happiness");
+    DecrementCommand decrementCommand = new DecrementCommand(feelingRepository, "happiness");
 
-    incrementCommand.execute();
+    decrementCommand.execute();
 
-    Feeling happinessAfterIncrease = feelingRepository.getFeeling("happiness");
 
     int finalHappiness = happiness.getValue();
-
-    assertEquals(initHappiness, finalHappiness + 1);
+    assertEquals(INITIAL_HAPPINESS_FOR_TEST - 1, finalHappiness);
 
   }
 }
