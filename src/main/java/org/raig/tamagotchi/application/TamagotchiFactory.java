@@ -32,7 +32,7 @@ public final class TamagotchiFactory {
     private static MacroCommand timePassesCommand;
     private static Tamagotchi tamagotchi = null;
 
-    public static Tamagotchi createTamagotchi(int initFeeling) {
+    public static Tamagotchi createTamagotchi(int initFeeling, DateProvider dateProvider) {
         if (tamagotchi != null) {
             return tamagotchi;
         }
@@ -51,14 +51,14 @@ public final class TamagotchiFactory {
         feelingRepository.insertFeeling(fullness);
 
 
-        DateProvider dateTamagochi = new DateProvider();
+
 
 
         createFeed(feelingRepository);
         createPlay(feelingRepository);
         createTimePasses(feelingRepository);
         tamagotchi =  new Tamagotchi(feelingRepository,
-                feed, play, timePassesCommand, dateTamagochi);
+                feed, play, timePassesCommand);
         return tamagotchi;
     }
 

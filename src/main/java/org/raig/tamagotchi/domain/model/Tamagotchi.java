@@ -12,28 +12,26 @@ import java.util.Observer;
 public class Tamagotchi implements Observer {
 
     private static final Logger  LOGGER  = Logger.getLogger(Tamagotchi.class);
-    public static final   int  MAX_HAPPINESS = 50;
-    public static final  int DEFAULT_INIT_FEELING = 0;
+
+    public static final long MILLISECONDS  = 1000;
+    public static final int PERIOD_FOR_UPDATING_FEELINGS_IN_SECONDS = 8;
+
     private FeelingRepository feelingRepository;
-    private static final long MILLISECONDS  = 1000;
 
     private Command feed;
     private Command timePasses;
     private Command play;
 
-
-    private final DateProvider dateTamagotchi;
-    java.util.Date lastUpdateDate;
+    Date lastUpdateDate;
 
     public Tamagotchi(FeelingRepository feelingRepository, Command feed, Command play,
-                      Command timePasses, DateProvider dateTamagotchi) {
+                      Command timePasses) {
         this.feed = feed;
         this.play = play;
         this.feelingRepository = feelingRepository;
-        this.dateTamagotchi = dateTamagotchi;
         this.timePasses = timePasses;
-        this.lastUpdateDate = dateTamagotchi.now();
-        LOGGER.info("First update: " + lastUpdateDate.toString());
+        this.lastUpdateDate = new Date();
+        LOGGER.debug("First update: " + lastUpdateDate.toString());
 
     }
 
@@ -64,9 +62,21 @@ public class Tamagotchi implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        Date now = dateTamagotchi.now();
-        long seconds = (now.getTime() - lastUpdateDate.getTime()) / MILLISECONDS;
-        LOGGER.info("Last updated was: " + seconds + "seconds");
-        timePasses.execute();
+        Date dateOfEvent = (Date) arg;
+
+        if (shouldUpdateFeelings(dateOfEvent)) {
+            timePasses.execute();
+            updateDateFromLastUpdateFeelings(dateOfEvent);
+            LOGGER.debug("Updating - last update - to" + lastUpdateDate);
+        }
+    }
+
+    private boolean shouldUpdateFeelings(Date dateNow) {
+        long milliseconds = (dateNow.getTime() - lastUpdateDate.getTime()); // Make a function
+        return (milliseconds > (PERIOD_FOR_UPDATING_FEELINGS_IN_SECONDS * MILLISECONDS));
+    }
+
+    private void updateDateFromLastUpdateFeelings(Date dateOfEvent) {
+        lastUpdateDate = dateOfEvent;
     }
 }

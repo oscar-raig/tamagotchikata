@@ -8,19 +8,23 @@ import static java.lang.Thread.sleep;
 
 public class Alarm extends Observable implements Runnable {
 
-    public  static final  long DEFAULT_MILLISECONDS_PERIOD = 5000;
+    private  final  Logger logger = Logger.getLogger(Alarm.class);
+
+    public  static final  long DEFAULT_MILLISECONDS_PERIOD = 500;
     private static final  long BASE_FREQUENCY = 100;
     private static final  long INITIAL_COUNTER_VALUE = 1;
 
-    private  final  Logger logger = Logger.getLogger(Alarm.class);
 
     private boolean clockRunning = true;
     private long count = INITIAL_COUNTER_VALUE;
     private long maxCount = DEFAULT_MILLISECONDS_PERIOD / BASE_FREQUENCY;
 
+    private DateProvider dateProvider;
 
-    public Alarm(long millisecondsPeriodAlert) {
+
+    public Alarm(long millisecondsPeriodAlert, DateProvider dateProvider) {
         maxCount = millisecondsPeriodAlert / BASE_FREQUENCY;
+        this.dateProvider = dateProvider;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class Alarm extends Observable implements Runnable {
     private void publish() {
         logger.debug("Notify Observers");
         setChanged();
-        notifyObservers();
+        notifyObservers(dateProvider.now());
     }
 
     public void die() {

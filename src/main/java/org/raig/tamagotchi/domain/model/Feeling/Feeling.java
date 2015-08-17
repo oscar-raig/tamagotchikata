@@ -2,6 +2,8 @@ package org.raig.tamagotchi.domain.model.Feeling;
 
 public class Feeling {
 
+  public static final int DEFAULT_INIT_FEELING = 5;
+
   private final String name;
   private int value;
 

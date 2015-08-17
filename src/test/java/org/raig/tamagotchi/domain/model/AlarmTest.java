@@ -17,11 +17,12 @@ public class AlarmTest {
     private static final long TEST_DELAY = TEST_MILLISECONS_PERIOD / 2;
     @Test
     public void shouldCallUpdateMethodonce() throws Exception {
-
+        // TODO DRY
         logger.debug("Clock should Call Update Method once");
-
-        Alarm clockTamagotchi = new Alarm(TEST_MILLISECONS_PERIOD);
+        DateProvider dateProvider = new DateProvider();
+        Alarm clockTamagotchi = new Alarm(TEST_MILLISECONS_PERIOD, dateProvider);
         Observer observer = Mockito.mock(Observer.class);
+
         clockTamagotchi.addObserver(observer);
         Thread thread = new Thread(clockTamagotchi);
         thread.start();
@@ -34,10 +35,10 @@ public class AlarmTest {
 
     @Test
     public void shouldCallUpdateMethodtwice() throws Exception {
-
+        // TODO DRY
         logger.debug("Clock Should call update Method twice");
-
-        Alarm clockTamagotchi = new Alarm(TEST_MILLISECONS_PERIOD);
+        DateProvider dateProvider = new DateProvider();
+        Alarm clockTamagotchi = new Alarm(TEST_MILLISECONS_PERIOD, dateProvider);
         Observer observer = Mockito.mock(Observer.class);
         clockTamagotchi.addObserver(observer);
         Thread thread = new Thread(clockTamagotchi);
