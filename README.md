@@ -1,5 +1,5 @@
 
-https://travis-ci.org/oscar-raig/tamagotchikata.svg?branch=master
+[![Build Status](https://travis-ci.org/oscar-raig/tamagotchikata.svg?branch=master)](https://travis-ci.org/oscar-raig/tamagotchikata)
 
 
 Part of the tamagotchi kata
