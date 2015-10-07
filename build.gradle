@@ -2,6 +2,22 @@ apply plugin: "application"
 apply plugin: "java"
 apply plugin: "idea"
 apply plugin: 'checkstyle'
+apply plugin: 'com.github.kt3k.coveralls'
+
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+    reportsDir = file("$buildDir/reports/jacoco/")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.destination "${buildDir}/jacocoHtml"
+        html.enabled = true
+    }
+}
 
 //noinspection GroovyUnusedAssignment
 mainClassName="org.raig.tamagotchi.application.Main"
