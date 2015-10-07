@@ -1,6 +1,8 @@
 
 [![Build Status](https://travis-ci.org/oscar-raig/tamagotchikata.svg?branch=master)](https://travis-ci.org/oscar-raig/tamagotchikata)
 
+[![Coverage Status](https://coveralls.io/repos/oscar-raig/tamagotchikata/badge.svg?branch=master&service=github)](https://coveralls.io/github/oscar-raig/tamagotchikata?branch=master)
+
 
 Part of the tamagotchi kata
 
