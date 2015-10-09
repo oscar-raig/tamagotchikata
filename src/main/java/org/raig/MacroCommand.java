@@ -3,10 +3,11 @@ package org.raig;
 import org.raig.tamagotchi.domain.model.Command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MacroCommand implements Command {
 
-  ArrayList<Command> list;
+  List<Command> list;
 
   public MacroCommand() {
     list = new ArrayList<Command>();
