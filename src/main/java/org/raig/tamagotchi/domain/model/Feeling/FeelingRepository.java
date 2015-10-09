@@ -1,10 +1,11 @@
 package org.raig.tamagotchi.domain.model.Feeling;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class FeelingRepository {
 
-  HashMap<String, Feeling> list = new HashMap<>();
+  Map<String, Feeling> list = new HashMap<>();
 
   public Feeling getFeeling(String happiness) {
     return list.get(happiness);
